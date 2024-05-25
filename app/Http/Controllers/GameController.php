@@ -12,6 +12,13 @@ class GameController extends Controller
     public function index()
     {
         $score = Session::get('score', 0);
+        if (Auth::check()) {
+            if (Auth::user()->score > $score) {
+                $score = Auth::user()->score;
+            }
+            Session::put('score', $score);
+        }
+
         return view('game', compact('score'));
     }
 
@@ -25,6 +32,7 @@ class GameController extends Controller
 
         // Fetch the current score
         $score = Session::get('score', 0);
+
 
         // Update the score if the user wins
         if ($result === 'You win!') {
@@ -62,6 +70,10 @@ class GameController extends Controller
     {
         // Reset the score
         Session::put('score', 0);
+        $user = Auth::user();
+        $user->score = 0;
+        $user->save();
+
 
         // Redirect to the home game page
         return redirect()->route('homegame');
