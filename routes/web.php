@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
+use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 Route::get('/homegame', [GameController::class, 'index'])->name('homegame');
 Route::post('/play', [GameController::class, 'play'])->name('play');
 Route::post('/reset', [GameController::class, 'reset'])->name('reset');
 Route::post('/save-score', [GameController::class, 'saveScore'])->name('save-score');
+Route::get('/game-dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/', function () {
     return view('welcome');
